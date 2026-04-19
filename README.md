@@ -4,12 +4,14 @@ project for web technologies
 
 1. create .env file with needed secrets and sensitive information following this format:
 
-# Database Credentials
+Database Credentials
+
 DB_URL=
 DB_USERNAME=
 DB_PASSWORD=
 
-# JWT Secrets
+JWT Secrets
+
 JWT_SECRET=
 JWT_EXPIRATION=
 
