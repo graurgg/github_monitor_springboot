@@ -1,10 +1,11 @@
+version: '3.8'
 services:
   postgres-db:
     image: postgres:15-alpine
     container_name: github_monitor_db
     environment:
-      POSTGRES_USER: monitor_user
-      POSTGRES_PASSWORD: monitor_password
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: github_monitor
     ports:
       - "5432:5432"
