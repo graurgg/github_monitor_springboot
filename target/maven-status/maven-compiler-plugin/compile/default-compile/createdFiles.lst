@@ -1,7 +1,9 @@
 com/example/githubmonitor/exception/ErrorResponse.class
 com/example/githubmonitor/repository/TagRepository.class
 com/example/githubmonitor/dto/AuthRequest.class
+com/example/githubmonitor/service/SyncService.class
 com/example/githubmonitor/controller/UserController.class
+com/example/githubmonitor/dto/CreateUserDto.class
 com/example/githubmonitor/security/JwtUtil.class
 com/example/githubmonitor/repository/GithubProfileRepository.class
 com/example/githubmonitor/repository/GithubIssueRepository.class
@@ -16,6 +18,7 @@ com/example/githubmonitor/entity/GithubIssue$GithubIssueBuilder.class
 com/example/githubmonitor/exception/GlobalExceptionHandler.class
 com/example/githubmonitor/dto/RepoDto.class
 com/example/githubmonitor/controller/GithubController.class
+com/example/githubmonitor/service/SyncService$2.class
 com/example/githubmonitor/config/DataSeeder.class
 com/example/githubmonitor/controller/AuthController.class
 com/example/githubmonitor/security/JwtAuthenticationFilter.class
@@ -34,3 +37,5 @@ com/example/githubmonitor/entity/Tag$TagBuilder.class
 com/example/githubmonitor/entity/GithubRepo.class
 com/example/githubmonitor/exception/AppException.class
 com/example/githubmonitor/entity/AppUser$AppUserBuilder.class
+com/example/githubmonitor/service/SyncService$1.class
+com/example/githubmonitor/service/GithubService.class

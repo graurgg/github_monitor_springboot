@@ -6,6 +6,9 @@ import com.example.githubmonitor.dto.UpdateUserDto;
 import com.example.githubmonitor.entity.AppUser;
 import com.example.githubmonitor.exception.AppException;
 import com.example.githubmonitor.repository.AppUserRepository;
+import com.example.githubmonitor.dto.CreateUserDto;
+
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +28,31 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final AppUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final SyncService syncService; // Inject the new service!
+
+    @Transactional
+    public UserDto createUser(CreateUserDto dto) {
+        if (userRepository.findByEmail(dto.email()).isPresent()) {
+            throw new AppException(org.springframework.http.HttpStatus.BAD_REQUEST, "EMAIL_TAKEN", "A user with this email already exists.");
+        }
+
+        AppUser newUser = new AppUser();
+        newUser.setEmail(dto.email());
+        newUser.setPassword(passwordEncoder.encode(dto.password())); // Always encrypt!
+        newUser.setRoleId(dto.roleId());
+
+        AppUser savedUser = userRepository.save(newUser);
+
+        // Trigger the GitHub Sync automatically
+        try {
+            syncService.syncGithubDataForUser(savedUser.getId(), dto.githubUsername());
+        } catch (Exception e) {
+            System.err.println("User created, but GitHub sync failed: " + e.getMessage());
+        }
+
+        return new UserDto(savedUser.getId(), savedUser.getEmail(), savedUser.getRoleId());
+    }
 
     // Upgraded to handle Pagination and Sorting
     public PagedResponse<UserDto> getAllUsers(int pageNo, int pageSize, String sortBy, String sortDir) {

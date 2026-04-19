@@ -4,6 +4,7 @@ import com.example.githubmonitor.dto.PagedResponse;
 import com.example.githubmonitor.dto.UserDto;
 import com.example.githubmonitor.service.UserService;
 import com.example.githubmonitor.dto.UpdateUserDto;
+import com.example.githubmonitor.dto.CreateUserDto;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,14 @@ public class UserController {
             @RequestBody UpdateUserDto dto) {
         
         return ResponseEntity.ok(userService.updateUser(id, dto));
+    }
+
+    // Manager (2) and Admin (3) can POST (Create users)
+    @PreAuthorize("hasAnyRole('2', '3')")
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserDto dto) {
+        UserDto createdUser = userService.createUser(dto);
+        // Returns a 201 Created status code along with the new user's data
+        return ResponseEntity.status(201).body(createdUser); 
     }
 }
