@@ -1,0 +1,15 @@
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: github_monitor_db
+    environment:
+      POSTGRES_USER: monitor_user
+      POSTGRES_PASSWORD: monitor_password
+      POSTGRES_DB: github_monitor
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

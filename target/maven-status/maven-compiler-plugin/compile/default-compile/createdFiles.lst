@@ -1,0 +1,11 @@
+com/example/githubmonitor/entity/GithubProfile$GithubProfileBuilder.class
+com/example/githubmonitor/entity/GithubRepo$GithubRepoBuilder.class
+com/example/githubmonitor/GithubMonitorApplication.class
+com/example/githubmonitor/entity/AppUser.class
+com/example/githubmonitor/entity/GithubIssue.class
+com/example/githubmonitor/entity/GithubProfile.class
+com/example/githubmonitor/entity/Tag.class
+com/example/githubmonitor/entity/Tag$TagBuilder.class
+com/example/githubmonitor/entity/GithubIssue$GithubIssueBuilder.class
+com/example/githubmonitor/entity/GithubRepo.class
+com/example/githubmonitor/entity/AppUser$AppUserBuilder.class

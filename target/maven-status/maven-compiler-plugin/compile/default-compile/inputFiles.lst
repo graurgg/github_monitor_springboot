@@ -1,0 +1,6 @@
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/entity/Tag.java
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/entity/AppUser.java
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/entity/GithubIssue.java
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/entity/GithubProfile.java
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/entity/GithubRepo.java
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/GithubMonitorApplication.java
