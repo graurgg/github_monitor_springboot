@@ -9,6 +9,7 @@ com/example/githubmonitor/repository/GithubProfileRepository.class
 com/example/githubmonitor/repository/GithubIssueRepository.class
 com/example/githubmonitor/entity/GithubIssue.class
 com/example/githubmonitor/repository/AppUserRepository.class
+com/example/githubmonitor/service/GithubSyncService.class
 com/example/githubmonitor/controller/SyncController.class
 com/example/githubmonitor/dto/PagedResponse.class
 com/example/githubmonitor/repository/GithubRepoRepository.class
@@ -24,7 +25,6 @@ com/example/githubmonitor/controller/AuthController.class
 com/example/githubmonitor/security/JwtAuthenticationFilter.class
 com/example/githubmonitor/entity/GithubProfile$GithubProfileBuilder.class
 com/example/githubmonitor/entity/GithubRepo$GithubRepoBuilder.class
-com/example/githubmonitor/dto/UpdateUserDto.class
 com/example/githubmonitor/GithubMonitorApplication.class
 com/example/githubmonitor/dto/IssueDto.class
 com/example/githubmonitor/security/SecurityConfig.class

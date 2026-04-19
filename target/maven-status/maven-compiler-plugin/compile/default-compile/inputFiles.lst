@@ -15,6 +15,7 @@
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/controller/GithubController.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/dto/AuthRequest.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/GithubMonitorApplication.java
+/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/service/GithubSyncService.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/service/UserService.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/repository/GithubProfileRepository.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/dto/RepoDto.java
@@ -22,7 +23,6 @@
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/repository/GithubRepoRepository.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/entity/GithubRepo.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/config/DataSeeder.java
-/home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/dto/UpdateUserDto.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/dto/AuthResponse.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/controller/UserController.java
 /home/graur/github_monitor_springboot/src/main/java/com/example/githubmonitor/dto/PagedResponse.java

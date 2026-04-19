@@ -1,6 +1,6 @@
 package com.example.githubmonitor.controller;
 
-import com.example.githubmonitor.service.SyncService;
+import com.example.githubmonitor.service.GithubSyncService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,16 +11,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SyncController {
 
-    private final SyncService syncService;
+    private final GithubSyncService githubSyncService;
 
-    // Manager (2) and Admin (3) can force a manual re-sync
+    // Manager (2) and Admin (3) can SYNC
     @PreAuthorize("hasAnyRole('2', '3')")
-    @PostMapping("/{userId}")
-    public ResponseEntity<String> triggerSync(
-            @PathVariable Long userId, 
-            @RequestParam String githubUsername) {
-        
-        syncService.syncGithubDataForUser(userId, githubUsername);
-        return ResponseEntity.ok("GitHub Sync Completed for user " + githubUsername);
+    @PostMapping
+    public ResponseEntity<String> triggerSync() {
+        try {
+            githubSyncService.syncAllProfiles();
+            return ResponseEntity.ok("GitHub Sync Completed Successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("GitHub Sync Failed: " + e.getMessage());
+        }
     }
 }

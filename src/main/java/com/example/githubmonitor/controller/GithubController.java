@@ -1,58 +1,78 @@
 package com.example.githubmonitor.controller;
 
 import com.example.githubmonitor.dto.IssueDto;
-import com.example.githubmonitor.dto.PagedResponse;
 import com.example.githubmonitor.dto.RepoDto;
-import com.example.githubmonitor.service.GithubService;
+import com.example.githubmonitor.entity.GithubIssue;
+import com.example.githubmonitor.entity.GithubRepo;
+import com.example.githubmonitor.repository.GithubIssueRepository;
+import com.example.githubmonitor.repository.GithubRepoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/github")
 @RequiredArgsConstructor
 public class GithubController {
 
-    private final GithubService githubService;
-
-    // Only User (1) and Admin (3) can access repositories and issues
-
+    private final GithubRepoRepository repoRepository;
+    private final GithubIssueRepository issueRepository;
+    
     @PreAuthorize("hasAnyRole('1', '3')")
     @GetMapping("/repos")
-    public ResponseEntity<PagedResponse<RepoDto>> getAllRepos(
-            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(value = "size", defaultValue = "10", required = false) int size
-    ) {
-        return ResponseEntity.ok(githubService.getAllRepos(page, size));
+    public ResponseEntity<List<RepoDto>> getAllRepos() {
+        List<RepoDto> repos = repoRepository.findAll().stream()
+                .map(this::mapToRepoDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(repos);
     }
 
     @PreAuthorize("hasAnyRole('1', '3')")
-    @GetMapping("/repos/{userId}")
-    public ResponseEntity<List<RepoDto>> getReposByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(githubService.getReposByUserId(userId));
+    @GetMapping("/repos/{username}")
+    public ResponseEntity<List<RepoDto>> getReposByUsername(@PathVariable String username) {
+        List<RepoDto> repos = repoRepository.findByGithubProfileUsername(username).stream()
+                .map(this::mapToRepoDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(repos);
     }
 
     @PreAuthorize("hasAnyRole('1', '3')")
     @GetMapping("/issues")
-    public ResponseEntity<PagedResponse<IssueDto>> getAllIssues(
-            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(value = "size", defaultValue = "10", required = false) int size
-    ) {
-        return ResponseEntity.ok(githubService.getAllIssues(page, size));
+    public ResponseEntity<List<IssueDto>> getAllIssues() {
+        List<IssueDto> issues = issueRepository.findAll().stream()
+                .map(this::mapToIssueDto)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(issues);
     }
 
     @PreAuthorize("hasAnyRole('1', '3')")
-    @GetMapping("/issues/{userId}")
-    public ResponseEntity<PagedResponse<IssueDto>> getIssuesByUser(
-            @PathVariable Long userId,
-            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(value = "size", defaultValue = "10", required = false) int size,
-            @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
-            @RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir
-    ) {
-        return ResponseEntity.ok(githubService.getIssuesByUserId(userId, page, size, sortBy, sortDir));
+    @GetMapping("/issues/{username}")
+    public ResponseEntity<Page<IssueDto>> getIssuesByUsername(
+            @PathVariable String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        
+        Page<GithubIssue> issuesPage = issueRepository.findAllIssuesByUsername(username, PageRequest.of(page, size));
+        return ResponseEntity.ok(issuesPage.map(this::mapToIssueDto));
+    }
+
+    // Helper mapping methods to prevent recursion
+    private RepoDto mapToRepoDto(GithubRepo repo) {
+        return new RepoDto(repo.getId(), repo.getName(), repo.getUrl());
+    }
+
+    private IssueDto mapToIssueDto(GithubIssue issue) {
+        return new IssueDto(
+                issue.getId(), 
+                issue.getTitle(), 
+                issue.getStatus(), 
+                issue.getGithubRepo().getName()
+        );
     }
 }
